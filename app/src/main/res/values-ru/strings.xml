@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Правда или Действие</string>
+    <string name="action">Действие</string>
+    <string name="true_text">Правда</string>
+    <string name="game_menu">Игра</string>
+    <string name="players_menu">Игроки</string>
+    <string name="settings_menu">Настройки</string>
+    <string name="action_done">Закончил</string>
+    <string name="action_roll">Заменить</string>
+    <string name="clear_history">Очистить историю</string>
+    <string name="add_player_description">Добавить игрока</string>
+    <string name="tokenHint">Gemini-токен</string>
+    <string name="settingsHint">Дополнительные настройки</string>
+    <string name="queue_of">Очередь: %1$s</string>
+</resources>
