@@ -14,7 +14,9 @@ class GeminiTextGenerator(
     private val model: GeminiAPI,
     private val gson: Gson
 ) : TextGenerator {
-    override suspend fun generateText(prompt: String, players: List<String>): String? {
+    override suspend fun generateText(
+        prompt: String, players: List<String>, additional: String
+    ): String? {
         val users = model.getUsers(
             token,
             GeminiRequest(
@@ -22,9 +24,13 @@ class GeminiTextGenerator(
                     GeminiRequestContent(
                         listOf(
                             GeminiRequestPart("Выступи в роли генератора вопросов и действий для одноимённой игры правда или действие. Твоя основная задача придумать смешную задачу для компании (можно и задать философский вопрос). Главное не повторяйся. У тебя есть список уже предложенных тобой действий или вопросов. Не допускай повторения. Максимум что ты можешь повторить, это задачу из действия как-то использовать в вопросе, и наоборот. А при одинаковом типе заданий используй как можно меньше повторений. При желании можешь использовать других людей для задания человеку. Отвечай на русском."),
-                            GeminiRequestPart("Список использованных вопросов:"),
-                            GeminiRequestPart("Дополнительные настройки:"),
-                            GeminiRequestPart("В игре присутствуют 3 человека: " + players.joinToString(", ")),
+                            GeminiRequestPart("Список использованных вопросов:\n"),
+                            GeminiRequestPart("Дополнительные настройки:\n$additional"),
+                            GeminiRequestPart(
+                                "В игре присутствуют 3 человека: " + players.joinToString(
+                                    ", "
+                                )
+                            ),
                         )
                     ),
                     GeminiRequestContent(

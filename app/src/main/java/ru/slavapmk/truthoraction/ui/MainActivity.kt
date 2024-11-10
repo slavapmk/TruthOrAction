@@ -1,5 +1,7 @@
 package ru.slavapmk.truthoraction.ui
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -25,14 +27,37 @@ class MainActivity : AppCompatActivity() {
         private const val LOG_REQUESTS = true
     }
 
-    lateinit var aiGameInteractor: AiGameInteractor
     private lateinit var binding: ActivityMainBinding
+    val shared: SharedPreferences by lazy {
+        getSharedPreferences("truthlocalstorage", Context.MODE_PRIVATE)
+    }
     val players: MutableList<String> = mutableListOf(
         "Перви",
         "Второи",
         "Трети",
     )
     var currentPlayer: Int = 0
+    private val retrofit: GeminiAPI by lazy {
+        val httpLoggingInterceptor = HttpLoggingInterceptor()
+        httpLoggingInterceptor.level = when (LOG_REQUESTS) {
+            true -> HttpLoggingInterceptor.Level.BODY
+            false -> HttpLoggingInterceptor.Level.NONE
+        }
+        Retrofit.Builder()
+            .client(OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build())
+            .baseUrl("https://generativelanguage.googleapis.com/v1beta/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(GeminiAPI::class.java)
+    }
+    val aiGameInteractor: AiGameInteractor by lazy {
+        AiGameInteractor(
+            GeminiTextGenerator(
+                shared.getString("aiToken", "")!!,
+                retrofit, Gson()
+            )
+        )
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,38 +74,5 @@ class MainActivity : AppCompatActivity() {
         )
         window.navigationBarColor = ContextCompat.getColor(this, R.color.panel)
         window.statusBarColor = ContextCompat.getColor(this, R.color.background)
-
-//        val model = GenerativeModel(
-//            modelName = "gemini-1.5-flash-001",
-//            apiKey = "AIzaSyAYvNUCYlf0EQn9ghRZr4vngp6WHy3K71k",
-//            generationConfig = generationConfig {
-//                temperature = 0.15f
-//                topK = 32
-//                topP = 1f
-//                maxOutputTokens = 512
-//            },
-//            safetySettings = listOf(
-//                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.MEDIUM_AND_ABOVE),
-//                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
-//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.MEDIUM_AND_ABOVE),
-//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.MEDIUM_AND_ABOVE),
-//            )
-//        )
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-        httpLoggingInterceptor.level = when (LOG_REQUESTS) {
-            true -> HttpLoggingInterceptor.Level.BODY
-            false -> HttpLoggingInterceptor.Level.NONE
-        }
-
-        val retrofit: GeminiAPI = Retrofit.Builder()
-            .client(OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build())
-            .baseUrl("https://generativelanguage.googleapis.com/v1beta/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(GeminiAPI::class.java)
-
-        aiGameInteractor = AiGameInteractor(
-            GeminiTextGenerator("", retrofit, Gson())
-        )
     }
 }

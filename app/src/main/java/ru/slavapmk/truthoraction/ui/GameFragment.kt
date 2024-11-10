@@ -105,7 +105,8 @@ class GameFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = aiGameInteractor.generateTruth(
                 activity.players,
-                activity.players[activity.currentPlayer]
+                activity.players[activity.currentPlayer],
+                activity.shared.getString("aiSettings", "")!!
             )
 
             withContext(Dispatchers.Main) {
@@ -130,7 +131,8 @@ class GameFragment : Fragment() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = aiGameInteractor?.generateAction(
                 activity.players,
-                activity.players[activity.currentPlayer]
+                activity.players[activity.currentPlayer],
+                activity.shared.getString("aiSettings", "")!!
             )
 
             withContext(Dispatchers.Main) {

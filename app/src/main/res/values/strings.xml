@@ -15,4 +15,5 @@
     <string name="tokenHint">Gemini Token</string>
     <string name="settingsHint">Additional Settings</string>
     <string name="queue_of">Answering: %1$s</string>
+    <string name="restart">Restart application for apply</string>
 </resources>

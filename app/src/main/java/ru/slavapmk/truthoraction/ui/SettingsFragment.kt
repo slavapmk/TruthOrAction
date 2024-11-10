@@ -7,12 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.edit
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import ru.slavapmk.truthoraction.R
 import ru.slavapmk.truthoraction.databinding.FragmentSettingsBinding
 
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding
+    private val activity by lazy {
+        requireActivity() as MainActivity
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,13 +45,45 @@ class SettingsFragment : Fragment() {
             ).show()
         }
         binding.buttonClearHistory.setOnLongClickListener {
+            activity.shared.edit {
+                remove("history")
+                commit()
+            }
             Toast.makeText(
                 requireContext(),
-                "Типа сброс",
+                "История сброшена",
                 Toast.LENGTH_LONG
             ).show()
             true
         }
+
+        binding.settingsFieldEdit.setText(
+            activity.shared.getString("aiSettings", "")
+        )
+        binding.settingsFieldEdit.addTextChangedListener({ _, _, _, _ ->
+        }, { onChange, _, _, _ ->
+            activity.shared.edit {
+                putString("aiSettings", onChange.toString())
+                commit()
+            }
+        }, {})
+
+        binding.tokenFieldEdit.setText(
+            activity.shared.getString("aiToken", "")
+        )
+        binding.tokenFieldEdit.addTextChangedListener({ _, _, _, _ ->
+        }, { onChange, _, _, _ ->
+            activity.shared.edit {
+                putString("aiToken", onChange.toString())
+                commit()
+            }
+        }, {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.restart),
+                Toast.LENGTH_LONG
+            ).show()
+        })
 
         return binding.root
     }
