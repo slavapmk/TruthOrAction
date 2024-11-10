@@ -14,4 +14,8 @@
     <string name="settingsHint">Дополнительные настройки</string>
     <string name="queue_of">Очередь: %1$s</string>
     <string name="restart">Перезапустите приложение для применения</string>
+    <string name="http_error">Http Ошибка %1$d</string>
+    <string name="illegal_region">Регион заблокирован Google, используйте VPN</string>
+    <string name="parse_error">Ошибка обработка результата ИИ</string>
+    <string name="quota_limit">Превышен лимит запросов, подождите</string>
 </resources>

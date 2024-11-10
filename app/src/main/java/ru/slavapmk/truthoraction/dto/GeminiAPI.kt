@@ -11,5 +11,5 @@ import ru.slavapmk.truthoraction.dto.gemini.response.GeminiResponse
 interface GeminiAPI {
     @POST("models/gemini-1.5-flash:generateContent")
     @Headers("Content-Type: application/json")
-    suspend fun getUsers(@Query("key") token: String, @Body data: GeminiRequest): Response<GeminiResponse>
+    suspend fun generate(@Query("key") token: String, @Body data: GeminiRequest): Response<GeminiResponse>
 }

@@ -21,6 +21,7 @@ import ru.slavapmk.truthoraction.dto.GeminiAPI
 import ru.slavapmk.truthoraction.dto.game.HistoryCodec
 import ru.slavapmk.truthoraction.io.AiGameInteractor
 import ru.slavapmk.truthoraction.io.GeminiTextGenerator
+import java.time.Duration
 
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -44,8 +45,12 @@ class MainActivity : AppCompatActivity() {
             true -> HttpLoggingInterceptor.Level.BODY
             false -> HttpLoggingInterceptor.Level.NONE
         }
+        val client = OkHttpClient.Builder()
+            .readTimeout(Duration.ofMinutes(5))
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
         Retrofit.Builder()
-            .client(OkHttpClient.Builder().addInterceptor(httpLoggingInterceptor).build())
+            .client(client)
             .baseUrl("https://generativelanguage.googleapis.com/v1beta/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()

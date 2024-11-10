@@ -5,8 +5,8 @@ import ru.slavapmk.truthoraction.dto.History
 interface GameInteractor {
     suspend fun generateTruth(
         players: List<String>, player: String, additional: String, history: History
-    ): String
+    ): GenerateResult
     suspend fun generateAction(
         players: List<String>, player: String, additional: String, history: History
-    ): String
+    ): GenerateResult
 }

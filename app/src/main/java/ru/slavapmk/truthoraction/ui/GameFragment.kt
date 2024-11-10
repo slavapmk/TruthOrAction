@@ -14,13 +14,14 @@ import kotlinx.coroutines.withContext
 import ru.slavapmk.truthoraction.databinding.FragmentGameBinding
 import ru.slavapmk.truthoraction.R
 import ru.slavapmk.truthoraction.dto.History
+import ru.slavapmk.truthoraction.io.GenerateResult
 import kotlin.random.Random
 
 class GameFragment : Fragment() {
     private lateinit var binding: FragmentGameBinding
     private var answering = AnswerType.NONE
     private val activity: MainActivity by lazy { requireActivity() as MainActivity }
-    private var current: String = ""
+    private var current: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,10 +65,12 @@ class GameFragment : Fragment() {
                 AnswerType.ACTION -> history.actions
                 AnswerType.TRUTH -> history.truths
             }.apply {
-                add(0, current)
-                if (size > 500) {
-                    for (i in 500 until size) {
-                        removeAt(i)
+                if (current != null) {
+                    add(0, current!!)
+                    if (size > 500) {
+                        for (i in 500 until size) {
+                            removeAt(i)
+                        }
                     }
                 }
             }
@@ -145,8 +148,16 @@ class GameFragment : Fragment() {
             )
 
             withContext(Dispatchers.Main) {
-                current = result
-                binding.question.text = result
+                binding.question.text = when (result) {
+                    GenerateResult.IllegalRegion -> getString(R.string.illegal_region)
+                    GenerateResult.ParseError -> getString(R.string.parse_error)
+                    GenerateResult.QuotaLimit -> getString(R.string.quota_limit)
+                    is GenerateResult.HttpError -> getString(R.string.http_error, result.code)
+                    is GenerateResult.Success -> {
+                        current = result.text
+                        result.text
+                    }
+                }
                 binding.generationProgress.isVisible = false
                 binding.actionRoll.isClickable = true
                 binding.actionNext.isClickable = true
@@ -177,8 +188,16 @@ class GameFragment : Fragment() {
             )
 
             withContext(Dispatchers.Main) {
-                current = result
-                binding.question.text = result
+                binding.question.text = when (result) {
+                    GenerateResult.IllegalRegion -> getString(R.string.illegal_region)
+                    GenerateResult.ParseError -> getString(R.string.parse_error)
+                    GenerateResult.QuotaLimit -> getString(R.string.quota_limit)
+                    is GenerateResult.HttpError -> getString(R.string.http_error, result.code)
+                    is GenerateResult.Success -> {
+                        current = result.text
+                        result.text
+                    }
+                }
                 binding.generationProgress.isVisible = false
                 binding.actionRoll.isClickable = true
                 binding.actionNext.isClickable = true

@@ -7,17 +7,17 @@ class AiGameInteractor(
 ) : GameInteractor {
     override suspend fun generateTruth(
         players: List<String>, player: String, additional: String, history: History
-    ): String {
+    ): GenerateResult {
         return executor.generateText(
             "Нужен *вопрос* для игрока $player", players, additional, history
-        ) ?: "Ошибка генерации"
+        )
     }
 
     override suspend fun generateAction(
         players: List<String>, player: String, additional: String, history: History
-    ): String {
+    ): GenerateResult {
         return executor.generateText(
             "Нужно *действие* для игрока $player", players, additional, history
-        ) ?: "Ошибка генерации"
+        )
     }
 }

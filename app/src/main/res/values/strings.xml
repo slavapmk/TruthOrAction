@@ -16,4 +16,8 @@
     <string name="settingsHint">Additional Settings</string>
     <string name="queue_of">Answering: %1$s</string>
     <string name="restart">Restart application for apply</string>
+    <string name="http_error">Http Error %1$d</string>
+    <string name="illegal_region">Illegal Country, please use VPN</string>
+    <string name="parse_error">Error parsing AI result</string>
+    <string name="quota_limit">Quota Limit exceed, please wait</string>
 </resources>

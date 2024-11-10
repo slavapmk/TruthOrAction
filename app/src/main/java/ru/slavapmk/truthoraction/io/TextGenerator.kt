@@ -5,5 +5,13 @@ import ru.slavapmk.truthoraction.dto.History
 interface TextGenerator {
     suspend fun generateText(
         prompt: String, players: List<String>, additional: String, history: History
-    ): String?
+    ): GenerateResult
+}
+
+sealed interface GenerateResult {
+    data object QuotaLimit : GenerateResult
+    data object ParseError : GenerateResult
+    data object IllegalRegion : GenerateResult
+    data class Success(val text: String) : GenerateResult
+    data class HttpError(val code: Int) : GenerateResult
 }
