@@ -12,6 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import ru.slavapmk.truthoraction.R
 import ru.slavapmk.truthoraction.databinding.FragmentSettingsBinding
+import ru.slavapmk.truthoraction.dto.History
 
 
 class SettingsFragment : Fragment() {
@@ -46,7 +47,12 @@ class SettingsFragment : Fragment() {
         }
         binding.buttonClearHistory.setOnLongClickListener {
             activity.shared.edit {
-                remove("history")
+                putString(
+                    "history",
+                    activity.historyCodec.encodeHistory(
+                        History()
+                    )
+                )
                 commit()
             }
             Toast.makeText(

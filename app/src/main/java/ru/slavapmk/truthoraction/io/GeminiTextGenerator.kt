@@ -3,6 +3,7 @@ package ru.slavapmk.truthoraction.io
 import android.util.Log
 import com.google.gson.Gson
 import ru.slavapmk.truthoraction.dto.GeminiAPI
+import ru.slavapmk.truthoraction.dto.History
 import ru.slavapmk.truthoraction.dto.game.GameQuestion
 import ru.slavapmk.truthoraction.dto.gemini.request.GeminiGenerationConfig
 import ru.slavapmk.truthoraction.dto.gemini.request.GeminiRequest
@@ -15,7 +16,7 @@ class GeminiTextGenerator(
     private val gson: Gson
 ) : TextGenerator {
     override suspend fun generateText(
-        prompt: String, players: List<String>, additional: String
+        prompt: String, players: List<String>, additional: String, history: History
     ): String? {
         val users = model.getUsers(
             token,
@@ -24,7 +25,15 @@ class GeminiTextGenerator(
                     GeminiRequestContent(
                         listOf(
                             GeminiRequestPart("Выступи в роли генератора вопросов и действий для одноимённой игры правда или действие. Твоя основная задача придумать смешную задачу для компании (можно и задать философский вопрос). Главное не повторяйся. У тебя есть список уже предложенных тобой действий или вопросов. Не допускай повторения. Максимум что ты можешь повторить, это задачу из действия как-то использовать в вопросе, и наоборот. А при одинаковом типе заданий используй как можно меньше повторений. При желании можешь использовать других людей для задания человеку. Отвечай на русском."),
-                            GeminiRequestPart("Список использованных вопросов:\n"),
+                            GeminiRequestPart(
+                                "Список использованных вопросов:\nПравда:\n${
+                                    history.truths.joinToString(
+                                        "\n"
+                                    )
+                                }\nДействие:\n${
+                                    history.actions.joinToString("\n")
+                                }"
+                            ),
                             GeminiRequestPart("Дополнительные настройки:\n$additional"),
                             GeminiRequestPart(
                                 "В игре присутствуют 3 человека: " + players.joinToString(

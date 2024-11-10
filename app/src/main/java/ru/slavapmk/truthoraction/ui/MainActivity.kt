@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.slavapmk.truthoraction.R
 import ru.slavapmk.truthoraction.databinding.ActivityMainBinding
 import ru.slavapmk.truthoraction.dto.GeminiAPI
+import ru.slavapmk.truthoraction.dto.game.HistoryCodec
 import ru.slavapmk.truthoraction.io.AiGameInteractor
 import ru.slavapmk.truthoraction.io.GeminiTextGenerator
 
@@ -50,13 +51,17 @@ class MainActivity : AppCompatActivity() {
             .build()
             .create(GeminiAPI::class.java)
     }
+    val gson by lazy { Gson() }
     val aiGameInteractor: AiGameInteractor by lazy {
         AiGameInteractor(
             GeminiTextGenerator(
                 shared.getString("aiToken", "")!!,
-                retrofit, Gson()
+                retrofit, gson
             )
         )
+    }
+    val historyCodec by lazy {
+        HistoryCodec(gson)
     }
 
 

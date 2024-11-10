@@ -1,9 +1,10 @@
-package ru.slavapmk.truthoraction.ui
+﻿package ru.slavapmk.truthoraction.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CoroutineScope
@@ -12,12 +13,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.slavapmk.truthoraction.databinding.FragmentGameBinding
 import ru.slavapmk.truthoraction.R
+import ru.slavapmk.truthoraction.dto.History
 import kotlin.random.Random
 
 class GameFragment : Fragment() {
     private lateinit var binding: FragmentGameBinding
     private var answering = AnswerType.NONE
     private val activity: MainActivity by lazy { requireActivity() as MainActivity }
+    private var current: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +54,31 @@ class GameFragment : Fragment() {
         }
 
         binding.actionNext.setOnClickListener {
+            val history = activity.historyCodec.decodeHistory(
+                activity.shared.getString(
+                    "history", activity.historyCodec.encodeHistory(History())
+                )!!
+            )
+            when (answering) {
+                AnswerType.NONE -> throw IllegalStateException()
+                AnswerType.ACTION -> history.actions
+                AnswerType.TRUTH -> history.truths
+            }.apply {
+                add(0, current)
+                if (size > 500) {
+                    for (i in 500 until size) {
+                        removeAt(i)
+                    }
+                }
+            }
+            activity.shared.edit {
+                putString(
+                    "history",
+                    activity.historyCodec.encodeHistory(history)
+                )
+                commit()
+            }
+
             activity.currentPlayer = (activity.currentPlayer + 1) % activity.players.size
             updateAnswering(AnswerType.NONE)
         }
@@ -81,11 +109,13 @@ class GameFragment : Fragment() {
                 binding.randomAction.visibility = View.VISIBLE
 
                 binding.taskType.text = ""
-                binding.question.text = getString(R.string.queue_of, activity.players[activity.currentPlayer])
-                binding.name.text = getString(R.string.name, activity.players[activity.currentPlayer])
+                binding.question.text =
+                    getString(R.string.queue_of, activity.players[activity.currentPlayer])
+                binding.name.text =
+                    getString(R.string.name, activity.players[activity.currentPlayer])
                 binding.round.text = getString(
                     R.string.round,
-                    activity.currentPlayer+1,
+                    activity.currentPlayer + 1,
                     activity.players.size
                 )
             }
@@ -106,10 +136,16 @@ class GameFragment : Fragment() {
             val result = aiGameInteractor.generateTruth(
                 activity.players,
                 activity.players[activity.currentPlayer],
-                activity.shared.getString("aiSettings", "")!!
+                activity.shared.getString("aiSettings", "")!!,
+                activity.historyCodec.decodeHistory(
+                    activity.shared.getString(
+                        "history", activity.historyCodec.encodeHistory(History())
+                    )!!
+                )
             )
 
             withContext(Dispatchers.Main) {
+                current = result
                 binding.question.text = result
                 binding.generationProgress.isVisible = false
                 binding.actionRoll.isClickable = true
@@ -124,18 +160,24 @@ class GameFragment : Fragment() {
         binding.question.text = ""
         binding.generationProgress.isVisible = true
 
-        val aiGameInteractor = (activity as? MainActivity)?.aiGameInteractor
+        val aiGameInteractor = activity.aiGameInteractor
 
         binding.actionRoll.isClickable = false
         binding.actionNext.isClickable = false
         CoroutineScope(Dispatchers.IO).launch {
-            val result = aiGameInteractor?.generateAction(
+            val result = aiGameInteractor.generateAction(
                 activity.players,
                 activity.players[activity.currentPlayer],
-                activity.shared.getString("aiSettings", "")!!
+                activity.shared.getString("aiSettings", "")!!,
+                activity.historyCodec.decodeHistory(
+                    activity.shared.getString(
+                        "history", activity.historyCodec.encodeHistory(History())
+                    )!!
+                )
             )
 
             withContext(Dispatchers.Main) {
+                current = result
                 binding.question.text = result
                 binding.generationProgress.isVisible = false
                 binding.actionRoll.isClickable = true
