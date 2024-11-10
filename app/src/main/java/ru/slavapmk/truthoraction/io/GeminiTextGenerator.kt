@@ -1,10 +1,9 @@
 package ru.slavapmk.truthoraction.io
 
 import android.util.Log
-import com.google.android.gms.common.internal.Objects
 import com.google.gson.Gson
 import ru.slavapmk.truthoraction.dto.GeminiAPI
-import ru.slavapmk.truthoraction.dto.History
+import ru.slavapmk.truthoraction.dto.game.History
 import ru.slavapmk.truthoraction.dto.game.GameQuestion
 import ru.slavapmk.truthoraction.dto.gemini.request.GeminiGenerationConfig
 import ru.slavapmk.truthoraction.dto.gemini.request.GeminiRequest

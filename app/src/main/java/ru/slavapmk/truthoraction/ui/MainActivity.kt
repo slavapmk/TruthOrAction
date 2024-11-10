@@ -18,7 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.slavapmk.truthoraction.R
 import ru.slavapmk.truthoraction.databinding.ActivityMainBinding
 import ru.slavapmk.truthoraction.dto.GeminiAPI
-import ru.slavapmk.truthoraction.dto.game.HistoryCodec
+import ru.slavapmk.truthoraction.dto.HistoryCodec
+import ru.slavapmk.truthoraction.dto.PlayersCodec
 import ru.slavapmk.truthoraction.io.AiGameInteractor
 import ru.slavapmk.truthoraction.io.GeminiTextGenerator
 import java.time.Duration
@@ -33,12 +34,6 @@ class MainActivity : AppCompatActivity() {
     val shared: SharedPreferences by lazy {
         getSharedPreferences("truthlocalstorage", Context.MODE_PRIVATE)
     }
-    val players: MutableList<String> = mutableListOf(
-        "Перви",
-        "Второи",
-        "Трети",
-    )
-    var currentPlayer: Int = 0
     private val retrofit: GeminiAPI by lazy {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
         httpLoggingInterceptor.level = when (LOG_REQUESTS) {
@@ -67,6 +62,9 @@ class MainActivity : AppCompatActivity() {
     }
     val historyCodec by lazy {
         HistoryCodec(gson)
+    }
+    val playersCodec by lazy {
+        PlayersCodec(gson)
     }
 
 

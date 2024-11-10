@@ -1,4 +1,4 @@
-package ru.slavapmk.truthoraction.dto
+package ru.slavapmk.truthoraction.dto.game
 
 data class History (
     val truths: MutableList<String> = mutableListOf(),

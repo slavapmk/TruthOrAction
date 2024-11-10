@@ -12,7 +12,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import ru.slavapmk.truthoraction.R
 import ru.slavapmk.truthoraction.databinding.FragmentSettingsBinding
-import ru.slavapmk.truthoraction.dto.History
+import ru.slavapmk.truthoraction.dto.game.History
 
 
 class SettingsFragment : Fragment() {

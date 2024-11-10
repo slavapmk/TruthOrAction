@@ -1,6 +1,6 @@
 package ru.slavapmk.truthoraction.io
 
-import ru.slavapmk.truthoraction.dto.History
+import ru.slavapmk.truthoraction.dto.game.History
 
 interface TextGenerator {
     suspend fun generateText(

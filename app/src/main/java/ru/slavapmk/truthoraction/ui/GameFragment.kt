@@ -13,7 +13,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ru.slavapmk.truthoraction.databinding.FragmentGameBinding
 import ru.slavapmk.truthoraction.R
-import ru.slavapmk.truthoraction.dto.History
+import ru.slavapmk.truthoraction.dto.game.History
+import ru.slavapmk.truthoraction.dto.game.Players
 import ru.slavapmk.truthoraction.io.GenerateResult
 import kotlin.random.Random
 
@@ -82,7 +83,10 @@ class GameFragment : Fragment() {
                 commit()
             }
 
-            activity.currentPlayer = (activity.currentPlayer + 1) % activity.players.size
+            val players = getPlayers()
+            players.current = (players.current + 1) % (players.players.size)
+            updatePlayers(players)
+
             updateAnswering(AnswerType.NONE)
         }
 
@@ -112,14 +116,15 @@ class GameFragment : Fragment() {
                 binding.randomAction.visibility = View.VISIBLE
 
                 binding.taskType.text = ""
+                val players = getPlayers()
                 binding.question.text =
-                    getString(R.string.queue_of, activity.players[activity.currentPlayer])
+                    getString(R.string.queue_of, players.players[players.current].name)
                 binding.name.text =
-                    getString(R.string.name, activity.players[activity.currentPlayer])
+                    getString(R.string.name, players.players[players.current].name)
                 binding.round.text = getString(
                     R.string.round,
-                    activity.currentPlayer + 1,
-                    activity.players.size
+                    players.current + 1,
+                    players.players.size
                 )
             }
         }
@@ -136,9 +141,10 @@ class GameFragment : Fragment() {
         binding.actionRoll.isClickable = false
         binding.actionNext.isClickable = false
         CoroutineScope(Dispatchers.IO).launch {
+            val players = getPlayers()
             val result = aiGameInteractor.generateTruth(
-                activity.players,
-                activity.players[activity.currentPlayer],
+                players.players.map { it.name },
+                players.players[players.current].name,
                 activity.shared.getString("aiSettings", "")!!,
                 activity.historyCodec.decodeHistory(
                     activity.shared.getString(
@@ -176,9 +182,10 @@ class GameFragment : Fragment() {
         binding.actionRoll.isClickable = false
         binding.actionNext.isClickable = false
         CoroutineScope(Dispatchers.IO).launch {
+            val players = getPlayers()
             val result = aiGameInteractor.generateAction(
-                activity.players,
-                activity.players[activity.currentPlayer],
+                players.players.map { it.name },
+                players.players[players.current].name,
                 activity.shared.getString("aiSettings", "")!!,
                 activity.historyCodec.decodeHistory(
                     activity.shared.getString(
@@ -203,6 +210,21 @@ class GameFragment : Fragment() {
                 binding.actionNext.isClickable = true
             }
         }
+    }
+
+    fun getPlayers() = activity.playersCodec.decodePlayers(
+        activity.shared.getString(
+            "players",
+            activity.playersCodec.encodePlayers(Players())
+        )!!
+    )
+
+    fun updatePlayers(players: Players) = activity.shared.edit {
+        putString(
+            "players",
+            activity.playersCodec.encodePlayers(players)
+        )
+        commit()
     }
 }
 

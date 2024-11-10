@@ -1,7 +1,7 @@
-package ru.slavapmk.truthoraction.dto.game
+package ru.slavapmk.truthoraction.dto
 
 import com.google.gson.Gson
-import ru.slavapmk.truthoraction.dto.History
+import ru.slavapmk.truthoraction.dto.game.History
 
 class HistoryCodec(private val gson: Gson) {
     fun encodeHistory(history: History) = gson.toJson(history)
