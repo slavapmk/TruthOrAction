@@ -161,7 +161,7 @@
         android:insetTop="0dp"
         android:insetRight="0dp"
         android:insetBottom="0dp"
-        android:text="@string/true_text"
+        android:text="@string/truth_text"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@id/random_action"
         app:layout_constraintEnd_toEndOf="parent"

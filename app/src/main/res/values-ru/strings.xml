@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Правда или Действие</string>
     <string name="action">Действие</string>
-    <string name="true_text">Правда</string>
+    <string name="truth_text">Правда</string>
     <string name="game_menu">Игра</string>
     <string name="players_menu">Игроки</string>
     <string name="settings_menu">Настройки</string>

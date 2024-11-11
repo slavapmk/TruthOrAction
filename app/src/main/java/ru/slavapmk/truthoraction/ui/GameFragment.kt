@@ -20,9 +20,31 @@ import kotlin.random.Random
 
 class GameFragment : Fragment() {
     private lateinit var binding: FragmentGameBinding
-    private var answering = AnswerType.NONE
     private val activity: MainActivity by lazy { requireActivity() as MainActivity }
-    private var current: String? = null
+    private var current: String?
+        get() = activity.shared.getString("current", null)
+        set(new) = activity.shared.edit {
+            putString("current", new)
+            commit()
+        }
+    private var answering: AnswerType
+        get() = when (activity.shared.getString("answer_type", "none")) {
+            "none" -> AnswerType.NONE
+            "truth" -> AnswerType.TRUTH
+            "action" -> AnswerType.ACTION
+            else -> throw IllegalStateException()
+        }
+        set(status) = activity.shared.edit {
+            putString(
+                "answer_type",
+                when (status) {
+                    AnswerType.NONE -> "none"
+                    AnswerType.TRUTH -> "truth"
+                    AnswerType.ACTION -> "action"
+                }
+            )
+            commit()
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -90,13 +112,23 @@ class GameFragment : Fragment() {
             updateAnswering(AnswerType.NONE)
         }
 
-        updateAnswering(AnswerType.NONE)
+        binding.taskType.text = when (answering) {
+            AnswerType.NONE -> ""
+            AnswerType.TRUTH -> getString(R.string.truth_text)
+            AnswerType.ACTION -> getString(R.string.action)
+        }
+        fillNames(getPlayers())
+        updateAnswering(answering)
+        if (!current.isNullOrEmpty()) {
+            binding.question.text = current
+        }
 
         return binding.root
     }
 
     private fun updateAnswering(status: AnswerType) {
         answering = status
+        val players = getPlayers()
         when (answering) {
             AnswerType.ACTION, AnswerType.TRUTH -> {
                 binding.actionNext.visibility = View.VISIBLE
@@ -116,34 +148,37 @@ class GameFragment : Fragment() {
                 binding.randomAction.visibility = View.VISIBLE
 
                 binding.taskType.text = ""
-                val players = getPlayers()
-                when (players.players.size) {
-                    0 -> {
-                        binding.question.text = getString(R.string.queue_of, "")
-                        binding.name.text = getString(R.string.name, "")
-                    }
-
-                    1 -> {
-                        binding.question.text =
-                            getString(R.string.queue_of, players.players[0].name)
-                        binding.name.text =
-                            getString(R.string.name, players.players[0].name)
-                    }
-
-                    else -> {
-                        binding.question.text =
-                            getString(R.string.queue_of, players.players[players.current].name)
-                        binding.name.text =
-                            getString(R.string.name, players.players[players.current].name)
-                    }
-                }
-                binding.round.text = getString(
-                    R.string.round,
-                    players.current + 1,
-                    players.players.size
-                )
+                fillNames(players)
             }
         }
+    }
+
+    private fun fillNames(players: Players) {
+        when (players.players.size) {
+            0 -> {
+                binding.question.text = getString(R.string.queue_of, "")
+                binding.name.text = getString(R.string.name, "")
+            }
+
+            1 -> {
+                binding.question.text =
+                    getString(R.string.queue_of, players.players[0].name)
+                binding.name.text =
+                    getString(R.string.name, players.players[0].name)
+            }
+
+            else -> {
+                binding.question.text =
+                    getString(R.string.queue_of, players.players[players.current].name)
+                binding.name.text =
+                    getString(R.string.name, players.players[players.current].name)
+            }
+        }
+        binding.round.text = getString(
+            R.string.round,
+            players.current + 1,
+            players.players.size
+        )
     }
 
     private fun generateTruth() {
