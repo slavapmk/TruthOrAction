@@ -117,10 +117,26 @@ class GameFragment : Fragment() {
 
                 binding.taskType.text = ""
                 val players = getPlayers()
-                binding.question.text =
-                    getString(R.string.queue_of, players.players[players.current].name)
-                binding.name.text =
-                    getString(R.string.name, players.players[players.current].name)
+                when (players.players.size) {
+                    0 -> {
+                        binding.question.text = getString(R.string.queue_of, "")
+                        binding.name.text = getString(R.string.name, "")
+                    }
+
+                    1 -> {
+                        binding.question.text =
+                            getString(R.string.queue_of, players.players[0].name)
+                        binding.name.text =
+                            getString(R.string.name, players.players[0].name)
+                    }
+
+                    else -> {
+                        binding.question.text =
+                            getString(R.string.queue_of, players.players[players.current].name)
+                        binding.name.text =
+                            getString(R.string.name, players.players[players.current].name)
+                    }
+                }
                 binding.round.text = getString(
                     R.string.round,
                     players.current + 1,

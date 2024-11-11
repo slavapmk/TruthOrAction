@@ -20,4 +20,5 @@
     <string name="illegal_region">Illegal Country, please use VPN</string>
     <string name="parse_error">Error parsing AI result</string>
     <string name="quota_limit">Quota Limit exceed, please wait</string>
+    <string name="adduser">Add people</string>
 </resources>

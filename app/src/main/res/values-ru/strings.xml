@@ -18,4 +18,5 @@
     <string name="illegal_region">Регион заблокирован Google, используйте VPN</string>
     <string name="parse_error">Ошибка обработка результата ИИ</string>
     <string name="quota_limit">Превышен лимит запросов, подождите</string>
+    <string name="adduser">Добавить игрока</string>
 </resources>

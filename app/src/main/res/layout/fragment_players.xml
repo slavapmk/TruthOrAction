@@ -6,32 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".ui.PlayersFragment">
 
-    <ListView
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/adduser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:hint="@string/adduser"
+        app:boxCornerRadiusBottomEnd="25dp"
+        app:boxCornerRadiusBottomStart="25dp"
+        app:boxCornerRadiusTopEnd="25dp"
+        app:boxCornerRadiusTopStart="25dp"
+        app:endIconDrawable="@drawable/baseline_done_24"
+        app:endIconMode="custom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/adduserEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/players_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/adduser"
         tools:listitem="@layout/player_item" />
 
-    <Button
-        android:id="@+id/add_people"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_margin="20dp"
-        android:contentDescription="@string/add_player_description"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        app:icon="@drawable/baseline_add_24"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:iconSize="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <!--    <Button-->
+    <!--        android:id="@+id/add_people"-->
+    <!--        android:layout_width="70dp"-->
+    <!--        android:layout_height="70dp"-->
+    <!--        android:layout_margin="20dp"-->
+    <!--        android:contentDescription="@string/add_player_description"-->
+    <!--        android:insetLeft="0dp"-->
+    <!--        android:insetTop="0dp"-->
+    <!--        android:insetRight="0dp"-->
+    <!--        android:insetBottom="0dp"-->
+    <!--        app:icon="@drawable/baseline_add_24"-->
+    <!--        app:iconGravity="textStart"-->
+    <!--        app:iconPadding="0dp"-->
+    <!--        app:iconSize="30dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
