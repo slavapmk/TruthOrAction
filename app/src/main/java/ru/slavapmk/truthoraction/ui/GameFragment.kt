@@ -225,6 +225,7 @@ class GameFragment : Fragment() {
                 GenerateResult.IllegalRegion -> getString(R.string.illegal_region)
                 GenerateResult.ParseError -> getString(R.string.parse_error)
                 GenerateResult.QuotaLimit -> getString(R.string.quota_limit)
+                GenerateResult.InsertToken -> getString(R.string.insert_token)
                 is GenerateResult.HttpError -> getString(R.string.http_error, result.code)
                 is GenerateResult.Success -> {
                     binding.actionRollAndClear.isEnabled = true

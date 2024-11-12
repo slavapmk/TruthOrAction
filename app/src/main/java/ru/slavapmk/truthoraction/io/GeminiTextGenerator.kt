@@ -67,6 +67,7 @@ class GeminiTextGenerator(
             }
 
             400 -> return GenerateResult.IllegalRegion
+            403 -> return GenerateResult.InsertToken
             429 -> return GenerateResult.QuotaLimit
             else -> return GenerateResult.HttpError(generate.code())
         }

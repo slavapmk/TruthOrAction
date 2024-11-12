@@ -12,6 +12,7 @@ sealed interface GenerateResult {
     data object QuotaLimit : GenerateResult
     data object ParseError : GenerateResult
     data object IllegalRegion : GenerateResult
+    data object InsertToken : GenerateResult
     data class Success(val text: String) : GenerateResult
     data class HttpError(val code: Int) : GenerateResult
 }

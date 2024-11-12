@@ -20,4 +20,5 @@
     <string name="quota_limit">Превышен лимит запросов, подождите</string>
     <string name="adduser">Добавить игрока</string>
     <string name="roll_and_clear">Заменить и забыть</string>
+    <string name="insert_token">Gemini Token не вставлен</string>
 </resources>
