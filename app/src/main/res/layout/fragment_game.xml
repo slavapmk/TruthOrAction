@@ -90,101 +90,115 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/action_roll"
+    <LinearLayout
+        android:id="@+id/ingameActions"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="5dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/action_roll"
-        android:visibility="invisible"
-        app:icon="@drawable/baseline_autorenew_24"
-        app:iconGravity="textEnd"
-        app:iconSize="30dp"
-        app:layout_constraintBottom_toBottomOf="@id/random_action"
-        app:layout_constraintEnd_toStartOf="@id/action_next"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/random_action" />
-
-    <Button
-        android:id="@+id/action_next"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="10dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/action_done"
-        android:visibility="invisible"
-        app:icon="@drawable/baseline_done_24"
-        app:iconGravity="textEnd"
-        app:iconSize="30dp"
-        app:layout_constraintBottom_toBottomOf="@id/random_action"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/action_roll"
-        app:layout_constraintTop_toTopOf="@id/random_action" />
-
-    <Button
-        android:id="@+id/action_action"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="0dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/action"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/random_action"
-        app:layout_constraintEnd_toStartOf="@id/random_action"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/random_action" />
-
-    <Button
-        android:id="@+id/truth_action"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="0dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/truth_text"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/random_action"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/random_action"
-        app:layout_constraintTop_toTopOf="@id/random_action" />
-
-    <Button
-        android:id="@+id/random_action"
-        android:layout_width="55dp"
         android:layout_height="55dp"
-        android:layout_margin="5dp"
-        android:insetLeft="0dp"
-        android:insetTop="0dp"
-        android:insetRight="0dp"
-        android:insetBottom="0dp"
-        android:visibility="visible"
-        app:icon="@drawable/baseline_casino_24"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp"
-        app:iconSize="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:divider="@drawable/divider_5"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_roll"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/action_roll"
+            android:visibility="visible"
+            app:icon="@drawable/baseline_autorenew_24"
+            app:iconGravity="textEnd"
+            app:iconSize="30dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_roll_and_clear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/roll_and_clear"
+            android:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_next"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.0"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/action_done"
+            android:visibility="visible"
+            app:icon="@drawable/baseline_done_24"
+            app:iconGravity="textEnd"
+            app:iconSize="30dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/queueActions"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:divider="@drawable/divider_5"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_action"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1.0"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/action" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/random_action"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:icon="@drawable/baseline_casino_24"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="30dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/truth_action"
+            android:layout_width="0dp"
+            android:layout_height="55dp"
+            android:layout_weight="1.0"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:text="@string/truth_text" />
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,4 +21,6 @@
     <string name="parse_error">Error parsing AI result</string>
     <string name="quota_limit">Quota Limit exceed, please wait</string>
     <string name="adduser">Add people</string>
+    <string name="roll_and_clear">Roll and Forget</string>
+    <string name="player_index" translatable="false">%1$d</string>
 </resources>

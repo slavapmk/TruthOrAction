@@ -70,46 +70,17 @@ class GameFragment : Fragment() {
         }
 
         binding.actionRoll.setOnClickListener {
-            when (answering) {
-                AnswerType.NONE -> {}
-                AnswerType.TRUTH -> generateTruth()
-                AnswerType.ACTION -> generateAction()
-            }
+            rollQuestion()
+        }
+
+        binding.actionRollAndClear.setOnClickListener {
+            saveToHistory()
+            rollQuestion()
         }
 
         binding.actionNext.setOnClickListener {
-            val history = activity.historyCodec.decodeHistory(
-                activity.shared.getString(
-                    "history", activity.historyCodec.encodeHistory(History())
-                )!!
-            )
-            when (answering) {
-                AnswerType.NONE -> throw IllegalStateException()
-                AnswerType.ACTION -> history.actions
-                AnswerType.TRUTH -> history.truths
-            }.apply {
-                if (current != null) {
-                    add(0, current!!)
-                    if (size > 500) {
-                        for (i in 500 until size) {
-                            removeAt(i)
-                        }
-                    }
-                }
-            }
-            activity.shared.edit {
-                putString(
-                    "history",
-                    activity.historyCodec.encodeHistory(history)
-                )
-                commit()
-            }
-
-            val players = getPlayers()
-            players.current = (players.current + 1) % (players.players.size)
-            updatePlayers(players)
-
-            updateAnswering(AnswerType.NONE)
+            saveToHistory()
+            switchPlayer()
         }
 
         binding.taskType.text = when (answering) {
@@ -126,26 +97,63 @@ class GameFragment : Fragment() {
         return binding.root
     }
 
+    private fun rollQuestion() {
+        when (answering) {
+            AnswerType.NONE -> {}
+            AnswerType.TRUTH -> generateTruth()
+            AnswerType.ACTION -> generateAction()
+        }
+    }
+
+    private fun switchPlayer() {
+        val players = getPlayers()
+        players.current = (players.current + 1) % (players.players.size)
+        updatePlayers(players)
+
+        updateAnswering(AnswerType.NONE)
+    }
+
+    private fun saveToHistory() {
+        val history = activity.historyCodec.decodeHistory(
+            activity.shared.getString(
+                "history", activity.historyCodec.encodeHistory(History())
+            )!!
+        )
+        when (answering) {
+            AnswerType.NONE -> throw IllegalStateException()
+            AnswerType.ACTION -> history.actions
+            AnswerType.TRUTH -> history.truths
+        }.apply {
+            if (current != null) {
+                add(0, current!!)
+                if (size > 500) {
+                    for (i in 500 until size) {
+                        removeAt(i)
+                    }
+                }
+            }
+        }
+        activity.shared.edit {
+            putString(
+                "history",
+                activity.historyCodec.encodeHistory(history)
+            )
+            commit()
+        }
+    }
+
     private fun updateAnswering(status: AnswerType) {
         answering = status
         val players = getPlayers()
         when (answering) {
             AnswerType.ACTION, AnswerType.TRUTH -> {
-                binding.actionNext.visibility = View.VISIBLE
-                binding.actionRoll.visibility = View.VISIBLE
-
-                binding.actionAction.visibility = View.INVISIBLE
-                binding.truthAction.visibility = View.INVISIBLE
-                binding.randomAction.visibility = View.INVISIBLE
+                binding.ingameActions.visibility = View.VISIBLE
+                binding.queueActions.visibility = View.INVISIBLE
             }
 
             AnswerType.NONE -> {
-                binding.actionNext.visibility = View.INVISIBLE
-                binding.actionRoll.visibility = View.INVISIBLE
-
-                binding.actionAction.visibility = View.VISIBLE
-                binding.truthAction.visibility = View.VISIBLE
-                binding.randomAction.visibility = View.VISIBLE
+                binding.ingameActions.visibility = View.INVISIBLE
+                binding.queueActions.visibility = View.VISIBLE
 
                 binding.taskType.text = ""
                 fillNames(players)
@@ -189,38 +197,43 @@ class GameFragment : Fragment() {
 
         val aiGameInteractor = activity.aiGameInteractor
 
-        binding.actionRoll.isClickable = false
-        binding.actionNext.isClickable = false
+        binding.actionRoll.isEnabled = false
+        binding.actionNext.isEnabled = false
+        binding.actionRollAndClear.isEnabled = false
         CoroutineScope(Dispatchers.IO).launch {
             val players = getPlayers()
-            val result = aiGameInteractor.generateTruth(
-                players.players.map { it.name },
-                players.players[players.current].name,
-                activity.shared.getString("aiSettings", "")!!,
-                activity.historyCodec.decodeHistory(
-                    activity.shared.getString(
-                        "history", activity.historyCodec.encodeHistory(History())
-                    )!!
+            processResult(
+                aiGameInteractor.generateTruth(
+                    players.players.map { it.name },
+                    players.players[players.current].name,
+                    activity.shared.getString("aiSettings", "")!!,
+                    activity.historyCodec.decodeHistory(
+                        activity.shared.getString(
+                            "history", activity.historyCodec.encodeHistory(History())
+                        )!!
+                    )
                 )
             )
+        }
+    }
 
-            withContext(Dispatchers.Main) {
-                binding.actionNext.isEnabled = false
-                binding.question.text = when (result) {
-                    GenerateResult.IllegalRegion -> getString(R.string.illegal_region)
-                    GenerateResult.ParseError -> getString(R.string.parse_error)
-                    GenerateResult.QuotaLimit -> getString(R.string.quota_limit)
-                    is GenerateResult.HttpError -> getString(R.string.http_error, result.code)
-                    is GenerateResult.Success -> {
-                        binding.actionNext.isEnabled = false
-                        current = result.text
-                        result.text
-                    }
+    private suspend fun processResult(result: GenerateResult) {
+        withContext(Dispatchers.Main) {
+            binding.actionNext.isEnabled = false
+            binding.actionRoll.isEnabled = true
+            binding.question.text = when (result) {
+                GenerateResult.IllegalRegion -> getString(R.string.illegal_region)
+                GenerateResult.ParseError -> getString(R.string.parse_error)
+                GenerateResult.QuotaLimit -> getString(R.string.quota_limit)
+                is GenerateResult.HttpError -> getString(R.string.http_error, result.code)
+                is GenerateResult.Success -> {
+                    binding.actionRollAndClear.isEnabled = true
+                    binding.actionNext.isEnabled = true
+                    current = result.text
+                    result.text
                 }
-                binding.generationProgress.isVisible = false
-                binding.actionRoll.isClickable = true
-                binding.actionNext.isClickable = true
             }
+            binding.generationProgress.isVisible = false
         }
     }
 
@@ -232,36 +245,22 @@ class GameFragment : Fragment() {
 
         val aiGameInteractor = activity.aiGameInteractor
 
-        binding.actionRoll.isClickable = false
-        binding.actionNext.isClickable = false
+        binding.actionRoll.isEnabled = false
+        binding.actionNext.isEnabled = false
         CoroutineScope(Dispatchers.IO).launch {
             val players = getPlayers()
-            val result = aiGameInteractor.generateAction(
-                players.players.map { it.name },
-                players.players[players.current].name,
-                activity.shared.getString("aiSettings", "")!!,
-                activity.historyCodec.decodeHistory(
-                    activity.shared.getString(
-                        "history", activity.historyCodec.encodeHistory(History())
-                    )!!
+            processResult(
+                aiGameInteractor.generateAction(
+                    players.players.map { it.name },
+                    players.players[players.current].name,
+                    activity.shared.getString("aiSettings", "")!!,
+                    activity.historyCodec.decodeHistory(
+                        activity.shared.getString(
+                            "history", activity.historyCodec.encodeHistory(History())
+                        )!!
+                    )
                 )
             )
-
-            withContext(Dispatchers.Main) {
-                binding.question.text = when (result) {
-                    GenerateResult.IllegalRegion -> getString(R.string.illegal_region)
-                    GenerateResult.ParseError -> getString(R.string.parse_error)
-                    GenerateResult.QuotaLimit -> getString(R.string.quota_limit)
-                    is GenerateResult.HttpError -> getString(R.string.http_error, result.code)
-                    is GenerateResult.Success -> {
-                        current = result.text
-                        result.text
-                    }
-                }
-                binding.generationProgress.isVisible = false
-                binding.actionRoll.isClickable = true
-                binding.actionNext.isClickable = true
-            }
         }
     }
 
