@@ -1,12 +1,11 @@
 package ru.slavapmk.truthoraction.ui
 
-import android.annotation.SuppressLint
-import android.util.Log
+import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ru.slavapmk.truthoraction.R
 import ru.slavapmk.truthoraction.dto.game.Player
@@ -15,28 +14,29 @@ import ru.slavapmk.truthoraction.dto.game.Players
 class PlayerAdapter(
     private val myDataset: Players,
     private val callback: (Player) -> (Unit)
-) : RecyclerView.Adapter<PlayerAdapter.NotificationViewHolder>() {
+) : RecyclerView.Adapter<PlayerAdapter.PlayerViewHolder>() {
 
-    class NotificationViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class PlayerViewHolder(val context: Context, itemView: View) : RecyclerView.ViewHolder(itemView) {
         val index: TextView = itemView.findViewById(R.id.index)
         val name: TextView = itemView.findViewById(R.id.name)
         val button: TextView = itemView.findViewById(R.id.delete_button)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotificationViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
         val itemView = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.player_item, parent, false)
-        return NotificationViewHolder(itemView)
+        return PlayerViewHolder(parent.context, itemView)
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun onBindViewHolder(holder: NotificationViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
         val player = myDataset.players[position]
-        holder.index.text = (position + 1).toString()
+        holder.index.text = holder.context.getString(
+            R.string.player_index, position + 1
+        )
         holder.name.text = player.name
         holder.button.setOnClickListener {
-            Log.d("gerfwdq", "gefrwsxq")
+            holder.button.isClickable = false
             callback(player)
         }
     }

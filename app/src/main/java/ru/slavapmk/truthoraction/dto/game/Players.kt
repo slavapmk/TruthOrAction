@@ -5,7 +5,5 @@ data class Players (
     val players: MutableList<Player> = mutableListOf(
         Player("Вася"),
         Player("Петя"),
-        Player("Егор"),
-        Player("Слава"),
     )
 )

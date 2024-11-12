@@ -1,6 +1,7 @@
 package ru.slavapmk.truthoraction.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,9 +67,14 @@ class PlayersFragment : Fragment() {
 
     private fun removePlayer(player: Player) {
         val index = players.players.indexOf(player)
+        val size = players.players.size
         players.players.removeAt(index)
-        updatePlayers(players)
         playersAdapter.notifyItemRemoved(index)
+        updatePlayers(players)
+        Log.d("ferw", "$size $index")
+        playersAdapter.notifyItemRangeChanged(
+            index, size - index
+        )
     }
 
     private fun getPlayers() = activity.playersCodec.decodePlayers(
