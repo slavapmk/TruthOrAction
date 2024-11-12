@@ -205,12 +205,14 @@ class GameFragment : Fragment() {
             )
 
             withContext(Dispatchers.Main) {
+                binding.actionNext.isEnabled = false
                 binding.question.text = when (result) {
                     GenerateResult.IllegalRegion -> getString(R.string.illegal_region)
                     GenerateResult.ParseError -> getString(R.string.parse_error)
                     GenerateResult.QuotaLimit -> getString(R.string.quota_limit)
                     is GenerateResult.HttpError -> getString(R.string.http_error, result.code)
                     is GenerateResult.Success -> {
+                        binding.actionNext.isEnabled = false
                         current = result.text
                         result.text
                     }
@@ -263,14 +265,14 @@ class GameFragment : Fragment() {
         }
     }
 
-    fun getPlayers() = activity.playersCodec.decodePlayers(
+    private fun getPlayers(): Players = activity.playersCodec.decodePlayers(
         activity.shared.getString(
             "players",
             activity.playersCodec.encodePlayers(Players())
         )!!
     )
 
-    fun updatePlayers(players: Players) = activity.shared.edit {
+    private fun updatePlayers(players: Players) = activity.shared.edit {
         putString(
             "players",
             activity.playersCodec.encodePlayers(players)
