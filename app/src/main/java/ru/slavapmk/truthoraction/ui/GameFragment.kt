@@ -199,7 +199,7 @@ class GameFragment : Fragment() {
         }
 
         updateAnswering(AnswerType.TRUTH)
-        binding.taskType.text = "Правда"
+        binding.taskType.text = getString(R.string.truth_text)
         binding.question.text = ""
         binding.generationProgress.isVisible = true
 
@@ -255,7 +255,7 @@ class GameFragment : Fragment() {
         }
 
         updateAnswering(AnswerType.ACTION)
-        binding.taskType.text = "Действие"
+        binding.taskType.text = getString(R.string.action)
         binding.question.text = ""
         binding.generationProgress.isVisible = true
 

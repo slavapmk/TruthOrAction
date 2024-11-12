@@ -41,8 +41,8 @@ class SettingsFragment : Fragment() {
         binding.buttonClearHistory.setOnClickListener {
             Toast.makeText(
                 requireContext(),
-                "Используйте длительное нажатие для сброса истории вопросов",
-                Toast.LENGTH_LONG
+                getString(R.string.reset_short),
+                Toast.LENGTH_SHORT
             ).show()
         }
         binding.buttonClearHistory.setOnLongClickListener {
@@ -57,8 +57,8 @@ class SettingsFragment : Fragment() {
             }
             Toast.makeText(
                 requireContext(),
-                "История сброшена",
-                Toast.LENGTH_LONG
+                getString(R.string.reset_long),
+                Toast.LENGTH_SHORT
             ).show()
             true
         }

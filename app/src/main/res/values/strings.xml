@@ -25,4 +25,6 @@
     <string name="player_index" translatable="false">%1$d</string>
     <string name="insert_token">Gemini Token Not Inserted</string>
     <string name="more_players"><b>Add more players</b> (Min 2)</string>
+    <string name="reset_short">Use a long press to reset the question history</string>
+    <string name="reset_long">History cleared</string>
 </resources>

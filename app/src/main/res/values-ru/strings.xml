@@ -22,4 +22,6 @@
     <string name="roll_and_clear">Заменить и забыть</string>
     <string name="insert_token">Gemini Token не вставлен</string>
     <string name="more_players"><b>Добавьте больше игроков</b>\n(Минимум 2)</string>
+    <string name="reset_short">Используйте длительное нажатие для сброса истории вопросов</string>
+    <string name="reset_long">История сброшена</string>
 </resources>
