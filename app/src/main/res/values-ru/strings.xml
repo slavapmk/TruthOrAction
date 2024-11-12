@@ -21,4 +21,5 @@
     <string name="adduser">Добавить игрока</string>
     <string name="roll_and_clear">Заменить и забыть</string>
     <string name="insert_token">Gemini Token не вставлен</string>
+    <string name="more_players"><b>Добавьте больше игроков</b>\n(Минимум 2)</string>
 </resources>

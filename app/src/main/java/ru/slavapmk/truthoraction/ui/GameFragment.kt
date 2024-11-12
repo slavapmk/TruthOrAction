@@ -1,6 +1,7 @@
 ﻿package ru.slavapmk.truthoraction.ui
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -190,6 +191,13 @@ class GameFragment : Fragment() {
     }
 
     private fun generateTruth() {
+        if (getPlayers().players.size <= 1) {
+            binding.question.text = Html.fromHtml(
+                getString(R.string.more_players), Html.FROM_HTML_MODE_COMPACT
+            )
+            return
+        }
+
         updateAnswering(AnswerType.TRUTH)
         binding.taskType.text = "Правда"
         binding.question.text = ""
@@ -239,6 +247,13 @@ class GameFragment : Fragment() {
     }
 
     private fun generateAction() {
+        if (getPlayers().players.size <= 1) {
+            binding.question.text = Html.fromHtml(
+                getString(R.string.more_players), Html.FROM_HTML_MODE_COMPACT
+            )
+            return
+        }
+
         updateAnswering(AnswerType.ACTION)
         binding.taskType.text = "Действие"
         binding.question.text = ""
