@@ -1,84 +1,84 @@
 # Truth Or Action
-[🇬🇧 English](/README.md) [🇷🇺 Russian](/README.ru.md)
+[🇬🇧 English](/README.md) [🇷🇺 Russian](README.ru.md)
 
-**Truth Or Action** — это игра «Правда или действие», в которой вопросы и задания создаются на ходу с помощью настраиваемого ИИ (Google Gemini), вместо использования стандартных шаблонов.
-
----
-
-## 🎯 Основные особенности
-- **Динамичный контент**: Каждый вопрос или задание генерируется в реальном времени Google Gemini AI.
-- **Настраиваемость**: Игроки могут добавлять свои настройки, чтобы адаптировать игровой процесс.
-- **Без повторов**: Gemini гарантирует отсутствие повторяющихся вопросов в ходе игры.
-- **Для компании**: Идеально подходит для вечеров с друзьями.
+**Truth Or Action** is a party game of "Truth or Dare," powered by a customizable AI (Google Gemini) that generates unique questions and challenges, breaking away from standard predefined sets.
 
 ---
 
-## 📋 Технические детали
-- **Платформа**: Нативное Android-приложение, написанное на Kotlin.
-- **Зависимости**:
+## 🎯 Key Features
+- **Dynamic Content**: Every question or action is uniquely generated in real-time by Google Gemini AI.
+- **Customizable**: Players can provide additional settings for the AI to tailor the game experience.
+- **Non-Repeating Prompts**: Gemini ensures no repeated questions during the session.
+- **Designed for Gatherings**: Perfect for spending time with friends.
+
+---
+
+## 📋 Technical Details
+- **Platform**: Native Android application written in Kotlin.
+- **Dependencies**:
     - Retrofit
     - Gson
     - OkHttp
-    - Kotlin Coroutines (опционально)
-- **Лицензия**: BSD 3-Clause License.
+    - Kotlin Coroutines (optional)
+- **License**: BSD 3-Clause License.
 
 ---
 
-## ⚙️ Руководство по установке
-1. **Необходимые инструменты**:
-    - Установите Android Studio с Android SDK.
-2. **Сборка приложения**:
-    - Клонируйте репозиторий:
+## ⚙️ Installation Guide
+1. **Prerequisites**:
+    - Install Android Studio with Android SDK.
+2. **Build the App**:
+    - Clone the repository:
       ```bash
       git clone <repository_url>
       ```
-    - Откройте проект в Android Studio.
-    - Нажмите на значок молоточка, чтобы собрать проект.
+    - Open the project in Android Studio.
+    - Use the build tool (hammer icon) to compile the project.
 
-3. **Где находится APK**:
-    - Скомпилированный APK файл находится по пути:
+3. **Locate the APK**:
+    - The built APK file will be located at:
       ```
       app/build/outputs/apk/
       ```
 
 ---
 
-## 🛠 Настройка
-1. **Установите APK** на своё Android-устройство.
-2. **Добавьте API-ключ**:
-    - Получите API-ключ Google Gemini [по этой ссылке](https://aistudio.google.com/app/apikey).
-    - Введите ключ в настройках приложения.
-3. **VPN для России**:
-    - Для работы в России используйте VPN (даже слабый VPN подойдёт, так как передаётся только текст).
-4. **Настройки игры**:
-    - По желанию: настройте игру, добавив текстовые инструкции для ИИ.
+## 🛠 Configuration
+1. **Install the APK** on your Android device.
+2. **Set API Key**:
+    - Obtain a Google Gemini API key [here](https://aistudio.google.com/app/apikey).
+    - Enter the key in the app settings.
+3. **VPN for Russia**:
+    - Use a VPN for access in Russia (even a lightweight VPN works as only text is exchanged).
+4. **Game Settings**:
+    - Optional: Customize game settings via text input for the AI.
 
 ---
 
-## 🚀 Как играть
-1. Добавьте игроков в разделе «Игроки».
-2. Начните игру, перейдя на главный экран.
-3. Наслаждайтесь уникальным опытом каждый раз!
+## 🚀 How to Play
+1. Add players in the "Players" section.
+2. Start the game by navigating to the main screen.
+3. Enjoy a unique experience every time!
 
 ---
 
-## 🛡 Поддержка
-- Сообщайте об ошибках через [GitHub Issues](#).
-- Контрибьюторы: проект создан самостоятельно.
+## 🛡 Support
+- Report issues on the [GitHub Issues](#).
+- Contributions: This project was developed independently.
 
 ---
 
-## 📦 Дополнительные сведения
-- **Скриншоты**:  
-  ![Скриншот](https://i.imgur.com/gAIgReP.png)
-- **Релизы**: Предварительно собранные APK-файлы доступны в [GitHub Releases](#).
+## 📦 Additional Details
+- **Screenshots**:  
+  ![Screenshot](https://i.imgur.com/gAIgReP.png)
+- **Releases**: Pre-built APKs are available in the [GitHub Releases](#).
 
 ---
 
-## 🌐 Будущие обновления
-- Автоматические тесты скоро будут интегрированы (они будут выполняться при сборке Gradle).
-- Документация и подробные инструкции по настройке появятся в будущем.
+## 🌐 Future Enhancements
+- Automated tests to be integrated soon (will execute during the Gradle build process).
+- Documentation and advanced configuration guides coming in future updates.
 
 ---
 
-**Наслаждайтесь Truth Or Action и делайте ваши встречи незабываемыми!**
+**Enjoy Truth Or Action, and make your gatherings unforgettable!**
