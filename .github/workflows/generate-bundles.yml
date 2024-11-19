@@ -3,14 +3,10 @@ name: Generated APK AAB (Upload - Create Artifact To Github Action)
 env:
   main_project_module: app
 
-
 on:
-
   push:
     branches:
-      - 'release/**'
-
-  # Allows you to run this workflow manually from the Actions tab
+      - master
   workflow_dispatch:
 
 jobs:
