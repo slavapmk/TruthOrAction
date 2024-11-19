@@ -1,5 +1,5 @@
 # Truth Or Action
-[🇬🇧 English](/README.md) [🇷🇺 Russian](/README.ru.md)
+[🇬🇧 English](/README.md) [🇷🇺 Russian](README.ru.md)
 
 **Truth Or Action** is a party game of "Truth or Dare," powered by a customizable AI (Google Gemini) that generates unique questions and challenges, breaking away from standard predefined sets.
 

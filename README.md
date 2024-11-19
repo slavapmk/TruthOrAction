@@ -1,5 +1,5 @@
 # Truth Or Action
-[🇬🇧 English](/readme.md) [🇷🇺 Russian](/readme.ru.md)
+[🇬🇧 English](/README.md) [🇷🇺 Russian](/README.ru.md)
 
 **Truth Or Action** — это игра «Правда или действие», в которой вопросы и задания создаются на ходу с помощью настраиваемого ИИ (Google Gemini), вместо использования стандартных шаблонов.
 
