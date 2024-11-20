@@ -27,7 +27,7 @@
     <string name="more_players"><b>Add more players</b> (Min 2)</string>
     <string name="reset_short">Use a long press to reset the question history</string>
     <string name="reset_long">History cleared</string>
-    <string name="main_prompt">Act as a generator of questions and actions for the truth or action game of the same name. Your main task is to come up with a funny task for the company (you can also ask a philosophical question). The main thing is not to repeat yourself. You have a list of actions or questions that you have already suggested. Don't let it happen again. The maximum that you can repeat is to use the task from the action somehow in the question, and vice versa. And with the same type of tasks, use as few repetitions as possible. If you wish, you can use other people to assign tasks to a person. Answer in English.</string>
+    <string name="main_prompt">Act as a generator of questions and actions for the truth or action game of the same name. Your main task is to come up with a funny task for the company (you can also ask a philosophical question). The main thing is not to repeat yourself. You have a list of actions or questions that you have already suggested. Don\'t let it happen again. The maximum that you can repeat is to use the task from the action somehow in the question, and vice versa. And with the same type of tasks, use as few repetitions as possible. If you wish, you can use other people to assign tasks to a person. Answer in English.</string>
     <string name="used">List of questions used:
     Truth:
     %1$s
