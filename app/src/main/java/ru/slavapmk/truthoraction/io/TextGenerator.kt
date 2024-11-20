@@ -1,10 +1,8 @@
 package ru.slavapmk.truthoraction.io
 
-import ru.slavapmk.truthoraction.dto.game.History
-
 interface TextGenerator {
     suspend fun generateText(
-        prompt: String, players: List<String>, additional: String, history: History
+        prompt: AiPrompts
     ): GenerateResult
 }
 

@@ -16,30 +16,15 @@ class GeminiTextGenerator(
     private val gson: Gson
 ) : TextGenerator {
     override suspend fun generateText(
-        prompt: String, players: List<String>, additional: String, history: History
+        prompt: AiPrompts
     ): GenerateResult {
         val content = GeminiRequestContent(
             listOf(
-                GeminiRequestPart("Выступи в роли генератора вопросов и действий для одноимённой игры правда или действие. Твоя основная задача придумать смешную задачу для компании (можно и задать философский вопрос). Главное не повторяйся. У тебя есть список уже предложенных тобой действий или вопросов. Не допускай повторения. Максимум что ты можешь повторить, это задачу из действия как-то использовать в вопросе, и наоборот. А при одинаковом типе заданий используй как можно меньше повторений. При желании можешь использовать других людей для задания человеку. Отвечай на русском."),
-                GeminiRequestPart(
-                    "Список использованных вопросов:\nПравда:\n${
-                        history.truths.shuffled().joinToString(
-                            "\n"
-                        )
-                    }\nДействие:\n${
-                        history.actions.shuffled().joinToString("\n")
-                    }"
-                ),
-                GeminiRequestPart("Дополнительные настройки:\n$additional"),
-                GeminiRequestPart(
-                    "В игре присутствуют 3 человека: " + players.joinToString(
-                        ", "
-                    )
-                ),
+                GeminiRequestPart(prompt.mainPrompt),
+                GeminiRequestPart(prompt.used),
+                GeminiRequestPart(prompt.additional),
+                GeminiRequestPart(prompt.players),
             )
-        )
-        Log.d(
-            "GeminiTextGenerator", content.toString()
         )
         val generate = model.generate(
             token,
@@ -47,11 +32,11 @@ class GeminiTextGenerator(
                 listOf(
                     content,
                     GeminiRequestContent(
-                        listOf(GeminiRequestPart("Хорошо, я выдам правду или действие. Ничего более")),
+                        listOf(GeminiRequestPart(prompt.confirm)),
                         role = "model"
                     ),
                     GeminiRequestContent(
-                        listOf(GeminiRequestPart(prompt)),
+                        listOf(GeminiRequestPart(prompt.prompt)),
                     )
                 ),
                 GeminiGenerationConfig()

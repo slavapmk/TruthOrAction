@@ -57,7 +57,8 @@ class MainActivity : AppCompatActivity() {
             GeminiTextGenerator(
                 shared.getString("aiToken", "")!!,
                 retrofit, gson
-            )
+            ),
+            this
         )
     }
     val historyCodec by lazy {
