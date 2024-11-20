@@ -47,9 +47,39 @@ jobs:
       - name: Build apk release project (APK) - ${{ env.main_project_module }} module
         run: ./gradlew assemble
 
+      - name: Generate release version
+        id: version
+        run: |
+          ./gradlew generateVersions
+          echo "RELEASE_NAME=$(sed '1!d' app/version.txt)" >> $GITHUB_OUTPUT
+          echo "RELEASE_CODE=$(sed '2!d' app/version.txt)" >> $GITHUB_OUTPUT
+
       # Noted For Output [main_project_module]/build/outputs/apk/release/
       - name: Upload APK Release - ${{ env.repository_name }}
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) release generated
+          name: ${{ env.date_today }} - ${{ env.repository_name }}
           path: ${{ env.main_project_module }}/build/outputs/apk/release/
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.RELEASE_CODE }}
+          release_name: Release v${{ steps.version.outputs.RELEASE_NAME }}
+          body_path: RELEASE.md
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ env.main_project_module }}/build/outputs/apk/release/app-release-unsigned.apk
+          asset_name: TruthOrAction.apk
+          asset_content_type: application/zip

@@ -67,3 +67,11 @@ dependencies {
     //noinspection UseTomlInstead
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }
+
+tasks.register("generateVersions") {
+    doLast {
+        file("./version.txt").writeText(
+            android.defaultConfig.versionName + "\n" + android.defaultConfig.versionCode
+        )
+    }
+}
