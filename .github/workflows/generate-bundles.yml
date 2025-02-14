@@ -39,13 +39,9 @@ jobs:
       - name: Run gradle tests
         run: ./gradlew test
 
-      # Run Build Project
-      - name: Build gradle project
-        run: ./gradlew build
-
       # Create APK Release
-      - name: Build apk release project (APK)
-        run: ./gradlew assemble
+      - name: Build apk debug project (APK)
+        run: ./gradlew assembleDebug
 
       - name: Generate release version
         id: version
@@ -59,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.date_today }} - ${{ env.repository_name }}
-          path: ${{ env.main_project_module }}/build/outputs/apk/release/
+          path: ${{ env.main_project_module }}/build/outputs/apk/debug/
 
       - name: Create Release
         id: create_release
@@ -80,6 +76,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.main_project_module }}/build/outputs/apk/release/app-release-unsigned.apk
+          asset_path: ${{ env.main_project_module }}/build/outputs/apk/debug/app-debug.apk
           asset_name: TruthOrAction.apk
           asset_content_type: application/zip
